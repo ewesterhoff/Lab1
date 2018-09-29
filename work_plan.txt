@@ -1,0 +1,24 @@
+2 major slices
+optimize add / sub togther
+
+
+
+
+how:
+whiteboard it
+	how to build the xor and slt bits (30 mins)
+	optimize system as a whole? (30 mins)
+Divy up into major sections
+	
+
+Implementation (4 hours)
+Build small pieces (based on what we whiteboard)
+Put them together
+
+Test bench
+(simultaneous w/implementation)
+Outline test cases (30 mins)
+Putting test cases into verilog (30 mins)
+
+
+
