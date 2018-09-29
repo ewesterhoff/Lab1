@@ -1,24 +1,11 @@
-2 major slices
-optimize add / sub togther
+Work plan:
 
-
-
-
-how:
-whiteboard it
-	how to build the xor and slt bits (30 mins)
-	optimize system as a whole? (30 mins)
-Divy up into major sections
-	
-
-Implementation (4 hours)
-Build small pieces (based on what we whiteboard)
-Put them together
-
-Test bench
-(simultaneous w/implementation)
-Outline test cases (30 mins)
-Putting test cases into verilog (30 mins)
-
+1) Add/Sub module and SLT  (45 mins)
+    - Needs test cases + testing  (45 mins)
+2) NOR/OR/AND/NAND/OR/XOR   (45 mins)
+    - Needs test cases + testing     (45 mins)
+5) Integrate MUX     (2 hours)
+4) Test benches           (3 hours. 1 hour to write. 2 hours to fix)
+5) Writing a report   (2 hours)
 
 
