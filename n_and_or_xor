@@ -1,0 +1,205 @@
+#! /usr/local/bin/vvp
+:ivl_version "10.1 (stable)" "(v10_1-107-gab6ae79)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision - 12;
+:vpi_module "system";
+:vpi_module "vhdl_sys";
+:vpi_module "v2005_math";
+:vpi_module "va_math";
+S_0xc2c4f0 .scope module, "And" "And" 2 18;
+ .timescale -9 -12;
+    .port_info 0 /INPUT 1 "a"
+    .port_info 1 /INPUT 1 "b"
+    .port_info 2 /OUTPUT 1 "ab"
+L_0xc59270/d .functor NOT 1, L_0xc590a0, C4<0>, C4<0>, C4<0>;
+L_0xc59270 .delay 1 (10000,10000,10000) L_0xc59270/d;
+o0x7f2d1c703018 .functor BUFZ 1, C4<z>; HiZ drive
+v0xc54310_0 .net "a", 0 0, o0x7f2d1c703018;  0 drivers
+v0xc543e0_0 .net "ab", 0 0, L_0xc59270;  1 drivers
+o0x7f2d1c703048 .functor BUFZ 1, C4<z>; HiZ drive
+v0xc54480_0 .net "b", 0 0, o0x7f2d1c703048;  0 drivers
+v0xc54580_0 .net "nab", 0 0, L_0xc590a0;  1 drivers
+S_0xc33440 .scope module, "n_And" "nAnd" 2 26, 2 8 0, S_0xc2c4f0;
+ .timescale -9 -12;
+    .port_info 0 /INPUT 1 "a"
+    .port_info 1 /INPUT 1 "b"
+    .port_info 2 /OUTPUT 1 "nab"
+L_0xc590a0/d .functor NAND 1, o0x7f2d1c703018, o0x7f2d1c703048, C4<1>, C4<1>;
+L_0xc590a0 .delay 1 (10000,10000,10000) L_0xc590a0/d;
+v0xc33660_0 .net "a", 0 0, o0x7f2d1c703018;  alias, 0 drivers
+v0xc54100_0 .net "b", 0 0, o0x7f2d1c703048;  alias, 0 drivers
+v0xc541c0_0 .net "nab", 0 0, L_0xc590a0;  alias, 1 drivers
+S_0xc2b770 .scope module, "Or" "Or" 2 40;
+ .timescale -9 -12;
+    .port_info 0 /INPUT 1 "a"
+    .port_info 1 /INPUT 1 "b"
+    .port_info 2 /OUTPUT 1 "aorb"
+L_0xc59600/d .functor NOT 1, L_0xc593b0, C4<0>, C4<0>, C4<0>;
+L_0xc59600 .delay 1 (10000,10000,10000) L_0xc59600/d;
+o0x7f2d1c7031f8 .functor BUFZ 1, C4<z>; HiZ drive
+v0xc54ba0_0 .net "a", 0 0, o0x7f2d1c7031f8;  0 drivers
+v0xc54c70_0 .net "aorb", 0 0, L_0xc59600;  1 drivers
+o0x7f2d1c703228 .functor BUFZ 1, C4<z>; HiZ drive
+v0xc54d10_0 .net "b", 0 0, o0x7f2d1c703228;  0 drivers
+v0xc54e10_0 .net "naorb", 0 0, L_0xc593b0;  1 drivers
+S_0xc54670 .scope module, "n_Or" "nOr" 2 48, 2 30 0, S_0xc2b770;
+ .timescale -9 -12;
+    .port_info 0 /INPUT 1 "a"
+    .port_info 1 /INPUT 1 "b"
+    .port_info 2 /OUTPUT 1 "naorb"
+L_0xc593b0/d .functor NOR 1, o0x7f2d1c7031f8, o0x7f2d1c703228, C4<0>, C4<0>;
+L_0xc593b0 .delay 1 (10000,10000,10000) L_0xc593b0/d;
+v0xc548b0_0 .net "a", 0 0, o0x7f2d1c7031f8;  alias, 0 drivers
+v0xc54990_0 .net "b", 0 0, o0x7f2d1c703228;  alias, 0 drivers
+v0xc54a50_0 .net "naorb", 0 0, L_0xc593b0;  alias, 1 drivers
+S_0xc2a9f0 .scope module, "testNANDmod" "testNANDmod" 3 5;
+ .timescale -9 -12;
+v0xc57e30_0 .var "a", 4 0;
+v0xc57f10_0 .var "b", 4 0;
+v0xc57fe0_0 .net "nab", 4 0, L_0xc5a960;  1 drivers
+v0xc580e0_0 .var "useless", 0 0;
+S_0xc54f00 .scope module, "nAnd" "NANDmod" 3 10, 2 73 0, S_0xc2a9f0;
+ .timescale -9 -12;
+    .port_info 0 /INPUT 5 "a"
+    .port_info 1 /INPUT 5 "b"
+    .port_info 2 /INPUT 1 "uselessCommand"
+    .port_info 3 /OUTPUT 5 "nab"
+P_0xc550d0 .param/l "n" 0 2 73, +C4<00000000000000000000000000000100>;
+v0xc57a10_0 .net "a", 4 0, v0xc57e30_0;  1 drivers
+v0xc57af0_0 .net "b", 4 0, v0xc57f10_0;  1 drivers
+v0xc57bd0_0 .net "nab", 4 0, L_0xc5a960;  alias, 1 drivers
+v0xc57cc0_0 .net "uselessCommand", 0 0, v0xc580e0_0;  1 drivers
+L_0xc598c0 .part v0xc57e30_0, 0, 1;
+L_0xc59a70 .part v0xc57f10_0, 0, 1;
+L_0xc59c70 .part v0xc57e30_0, 1, 1;
+L_0xc59dd0 .part v0xc57f10_0, 1, 1;
+L_0xc59f80 .part v0xc57e30_0, 2, 1;
+L_0xc5a170 .part v0xc57f10_0, 2, 1;
+L_0xc5a350 .part v0xc57e30_0, 3, 1;
+L_0xc5a4b0 .part v0xc57f10_0, 3, 1;
+L_0xc5a6b0 .part v0xc57e30_0, 4, 1;
+L_0xc5a810 .part v0xc57f10_0, 4, 1;
+LS_0xc5a960_0_0 .concat8 [ 1 1 1 1], L_0xc59760, L_0xc59bb0, L_0xc59ec0, L_0xc5a2e0;
+LS_0xc5a960_0_4 .concat8 [ 1 0 0 0], L_0xc5a5f0;
+L_0xc5a960 .concat8 [ 4 1 0 0], LS_0xc5a960_0_0, LS_0xc5a960_0_4;
+S_0xc552a0 .scope generate, "genblk1[0]" "genblk1[0]" 2 82, 2 82 0, S_0xc54f00;
+ .timescale -9 -12;
+P_0xc55470 .param/l "m" 0 2 82, +C4<00>;
+S_0xc55530 .scope module, "form_n_And" "nAnd" 2 83, 2 8 0, S_0xc552a0;
+ .timescale -9 -12;
+    .port_info 0 /INPUT 1 "a"
+    .port_info 1 /INPUT 1 "b"
+    .port_info 2 /OUTPUT 1 "nab"
+L_0xc59760/d .functor NAND 1, L_0xc598c0, L_0xc59a70, C4<1>, C4<1>;
+L_0xc59760 .delay 1 (10000,10000,10000) L_0xc59760/d;
+v0xc55770_0 .net "a", 0 0, L_0xc598c0;  1 drivers
+v0xc55850_0 .net "b", 0 0, L_0xc59a70;  1 drivers
+v0xc55910_0 .net "nab", 0 0, L_0xc59760;  1 drivers
+S_0xc55a60 .scope generate, "genblk1[1]" "genblk1[1]" 2 82, 2 82 0, S_0xc54f00;
+ .timescale -9 -12;
+P_0xc55c50 .param/l "m" 0 2 82, +C4<01>;
+S_0xc55d10 .scope module, "form_n_And" "nAnd" 2 83, 2 8 0, S_0xc55a60;
+ .timescale -9 -12;
+    .port_info 0 /INPUT 1 "a"
+    .port_info 1 /INPUT 1 "b"
+    .port_info 2 /OUTPUT 1 "nab"
+L_0xc59bb0/d .functor NAND 1, L_0xc59c70, L_0xc59dd0, C4<1>, C4<1>;
+L_0xc59bb0 .delay 1 (10000,10000,10000) L_0xc59bb0/d;
+v0xc55f50_0 .net "a", 0 0, L_0xc59c70;  1 drivers
+v0xc56030_0 .net "b", 0 0, L_0xc59dd0;  1 drivers
+v0xc560f0_0 .net "nab", 0 0, L_0xc59bb0;  1 drivers
+S_0xc56240 .scope generate, "genblk1[2]" "genblk1[2]" 2 82, 2 82 0, S_0xc54f00;
+ .timescale -9 -12;
+P_0xc56460 .param/l "m" 0 2 82, +C4<010>;
+S_0xc56500 .scope module, "form_n_And" "nAnd" 2 83, 2 8 0, S_0xc56240;
+ .timescale -9 -12;
+    .port_info 0 /INPUT 1 "a"
+    .port_info 1 /INPUT 1 "b"
+    .port_info 2 /OUTPUT 1 "nab"
+L_0xc59ec0/d .functor NAND 1, L_0xc59f80, L_0xc5a170, C4<1>, C4<1>;
+L_0xc59ec0 .delay 1 (10000,10000,10000) L_0xc59ec0/d;
+v0xc56740_0 .net "a", 0 0, L_0xc59f80;  1 drivers
+v0xc56820_0 .net "b", 0 0, L_0xc5a170;  1 drivers
+v0xc568e0_0 .net "nab", 0 0, L_0xc59ec0;  1 drivers
+S_0xc56a30 .scope generate, "genblk1[3]" "genblk1[3]" 2 82, 2 82 0, S_0xc54f00;
+ .timescale -9 -12;
+P_0xc56c20 .param/l "m" 0 2 82, +C4<011>;
+S_0xc56ce0 .scope module, "form_n_And" "nAnd" 2 83, 2 8 0, S_0xc56a30;
+ .timescale -9 -12;
+    .port_info 0 /INPUT 1 "a"
+    .port_info 1 /INPUT 1 "b"
+    .port_info 2 /OUTPUT 1 "nab"
+L_0xc5a2e0/d .functor NAND 1, L_0xc5a350, L_0xc5a4b0, C4<1>, C4<1>;
+L_0xc5a2e0 .delay 1 (10000,10000,10000) L_0xc5a2e0/d;
+v0xc56f20_0 .net "a", 0 0, L_0xc5a350;  1 drivers
+v0xc57000_0 .net "b", 0 0, L_0xc5a4b0;  1 drivers
+v0xc570c0_0 .net "nab", 0 0, L_0xc5a2e0;  1 drivers
+S_0xc57210 .scope generate, "genblk1[4]" "genblk1[4]" 2 82, 2 82 0, S_0xc54f00;
+ .timescale -9 -12;
+P_0xc57450 .param/l "m" 0 2 82, +C4<0100>;
+S_0xc57510 .scope module, "form_n_And" "nAnd" 2 83, 2 8 0, S_0xc57210;
+ .timescale -9 -12;
+    .port_info 0 /INPUT 1 "a"
+    .port_info 1 /INPUT 1 "b"
+    .port_info 2 /OUTPUT 1 "nab"
+L_0xc5a5f0/d .functor NAND 1, L_0xc5a6b0, L_0xc5a810, C4<1>, C4<1>;
+L_0xc5a5f0 .delay 1 (10000,10000,10000) L_0xc5a5f0/d;
+v0xc57750_0 .net "a", 0 0, L_0xc5a6b0;  1 drivers
+v0xc57830_0 .net "b", 0 0, L_0xc5a810;  1 drivers
+v0xc578f0_0 .net "nab", 0 0, L_0xc5a5f0;  1 drivers
+S_0xc29c70 .scope module, "xOr" "xOr" 2 52;
+ .timescale -9 -12;
+    .port_info 0 /INPUT 1 "a"
+    .port_info 1 /INPUT 1 "b"
+    .port_info 2 /OUTPUT 1 "x_or"
+L_0xc5af20/d .functor NAND 1, L_0xc5ab90, L_0xc5aca0, C4<1>, C4<1>;
+L_0xc5af20 .delay 1 (10000,10000,10000) L_0xc5af20/d;
+L_0xc5af90/d .functor NOT 1, L_0xc5af20, C4<0>, C4<0>, C4<0>;
+L_0xc5af90 .delay 1 (10000,10000,10000) L_0xc5af90/d;
+o0x7f2d1c703af8 .functor BUFZ 1, C4<z>; HiZ drive
+v0xc58b90_0 .net "a", 0 0, o0x7f2d1c703af8;  0 drivers
+o0x7f2d1c703b28 .functor BUFZ 1, C4<z>; HiZ drive
+v0xc58c80_0 .net "b", 0 0, o0x7f2d1c703b28;  0 drivers
+v0xc58d90_0 .net "nab", 0 0, L_0xc5ab90;  1 drivers
+v0xc58e30_0 .net "nab_and_naorb", 0 0, L_0xc5af20;  1 drivers
+v0xc58ed0_0 .net "naorb", 0 0, L_0xc5aca0;  1 drivers
+v0xc58fc0_0 .net "x_or", 0 0, L_0xc5af90;  1 drivers
+S_0xc581b0 .scope module, "n_And" "nAnd" 2 62, 2 8 0, S_0xc29c70;
+ .timescale -9 -12;
+    .port_info 0 /INPUT 1 "a"
+    .port_info 1 /INPUT 1 "b"
+    .port_info 2 /OUTPUT 1 "nab"
+L_0xc5ab90/d .functor NAND 1, o0x7f2d1c703af8, o0x7f2d1c703b28, C4<1>, C4<1>;
+L_0xc5ab90 .delay 1 (10000,10000,10000) L_0xc5ab90/d;
+v0xc583d0_0 .net "a", 0 0, o0x7f2d1c703af8;  alias, 0 drivers
+v0xc58490_0 .net "b", 0 0, o0x7f2d1c703b28;  alias, 0 drivers
+v0xc58550_0 .net "nab", 0 0, L_0xc5ab90;  alias, 1 drivers
+S_0xc586a0 .scope module, "n_Or" "nOr" 2 63, 2 30 0, S_0xc29c70;
+ .timescale -9 -12;
+    .port_info 0 /INPUT 1 "a"
+    .port_info 1 /INPUT 1 "b"
+    .port_info 2 /OUTPUT 1 "naorb"
+L_0xc5aca0/d .functor NOR 1, o0x7f2d1c703af8, o0x7f2d1c703b28, C4<0>, C4<0>;
+L_0xc5aca0 .delay 1 (10000,10000,10000) L_0xc5aca0/d;
+v0xc588c0_0 .net "a", 0 0, o0x7f2d1c703af8;  alias, 0 drivers
+v0xc589b0_0 .net "b", 0 0, o0x7f2d1c703b28;  alias, 0 drivers
+v0xc58a80_0 .net "naorb", 0 0, L_0xc5aca0;  alias, 1 drivers
+    .scope S_0xc2a9f0;
+T_0 ;
+    %vpi_call 3 13 "$display", "A     B     | NAB" {0 0 0};
+    %pushi/vec4 25, 0, 5;
+    %store/vec4 v0xc57e30_0, 0, 5;
+    %pushi/vec4 9, 0, 5;
+    %store/vec4 v0xc57f10_0, 0, 5;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0xc580e0_0, 0, 1;
+    %delay 1000000, 0;
+    %vpi_call 3 15 "$display", "%b %b | %b", v0xc57e30_0, v0xc57f10_0, v0xc57fe0_0 {0 0 0};
+    %end;
+    .thread T_0;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "./n_and_or_xor.v";
+    "n_and_or_xor.t.v";
