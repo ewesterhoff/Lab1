@@ -57,13 +57,13 @@ module xOr
 		);
 	wire nab;
 	wire naorb;
-	wire nab_and_naorb;
+	wire nab_and_aorb;
 
 	nAnd n_And(.a(a), .b(b), .nab(nab));
-	nOr n_Or(.a(a), .b(b) , .naorb(naorb));
+	Or Or(.a(a), .b(b) , .aorb(aorb));
 
-	`NAND nand1(nab_and_naorb, nab, naorb);
-	`NOT not3(x_or, nab_and_naorb);
+	`NAND nand1(nab_and_aorb, nab, aorb);
+	`NOT not3(x_or, nab_and_aorb);
 endmodule
 // End basic one-bit gates
 //------------------------------------------------------------------------------------------
@@ -80,20 +80,65 @@ module NANDmod #( parameter n = 4)
 
 	genvar m;
 	generate for (m = 0; m < n + 1; m = m + 1) begin
-		nAnd form_n_And(.a(a[m]), .b(b[m]), .nab(nab[m]));
+		nAnd form_nAnd(.a(a[m]), .b(b[m]), .nab(nab[m]));
 	end endgenerate
 endmodule 
 
-//module ANDmod # (parameter n = 9)
-//endmodule
+module ANDmod # (parameter n = 4)
+	(
+	input[n:0] a,
+	input[n:0] b,
+	input uselessCommand,
+	output[n:0] ab
+		);
 
-//module NORmod # (parameter n = 9)
-//endmodule
+	genvar m;
+	generate for (m = 0; m < n + 1; m = m + 1) begin
+		And form_And(.a(a[m]), .b(b[m]), .ab(ab[m]));
+	end endgenerate
+endmodule
 
-//module ORmod # (parameter n = 9)
-//endmodule
+module NORmod # (parameter n = 4)
+	(
+	input[n:0] a,
+	input[n:0] b,
+	input uselessCommand,
+	output[n:0] naorb
+		);
 
-//module XORmod # (parameter n = 9)
-//endmodule
+	genvar m;
+	generate for (m = 0; m < n + 1; m = m + 1) begin
+		nOr form_nOr(.a(a[m]), .b(b[m]), .naorb(naorb[m]));
+	end endgenerate
+endmodule
+
+module ORmod # (parameter n = 4)
+	(
+	input[n:0] a,
+	input[n:0] b,
+	input uselessCommand,
+	output[n:0] aorb
+		);
+
+	genvar m;
+	generate for (m = 0; m < n + 1; m = m + 1) begin
+		Or form_Or(.a(a[m]), .b(b[m]), .aorb(aorb[m]));
+	end endgenerate
+endmodule
+
+
+module XORmod # (parameter n = 4)
+	(
+	input[n:0] a,
+	input[n:0] b, 
+	input uselessCommand, 
+	output[n:0] x_or
+		);
+		
+	genvar m;
+	generate for (m = 0; m < n + 1; m = m + 1) begin
+		xOr form_xOr(.a(a[m]), .b(b[m]), .x_or(x_or[m]));
+	end endgenerate
+endmodule
 
 
