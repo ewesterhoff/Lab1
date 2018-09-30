@@ -52,6 +52,7 @@ module AddSubN #( parameter n = 9 )
     `XOR ATEST(atest, sum[n], a[n]);
     `XOR BTEST(btest, sum[n], bsub[n]);
     `AND OVERFLOW(overflow, atest, btest);
+    // shorter overflow calculation?
 endmodule
 
 module SLTmod #( parameter n = 9 )
