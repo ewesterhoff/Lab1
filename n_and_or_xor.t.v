@@ -7,8 +7,9 @@ module testNANDmod();
 	reg [4:0] a, b;
 	reg useless;
 	wire [4:0] nab;
+	wire cout, ovf, z;
 
-	NANDmod nAnd(.a(a), .b(b), .nab(nab), .uselessCommand(useless));
+	NANDmod nAnd(.a(a), .b(b), .result(nab), .carryout(cout), .overflow(ovf), .zero(z));
 
 	initial begin
 	$display("A     B     | Exp nAB");
@@ -24,8 +25,9 @@ module testANDmod();
 	reg [4:0] a, b;
 	reg useless;
 	wire [4:0] ab;
+	wire cout, ovf, z;
 
-	ANDmod And(.a(a), .b(b), .ab(ab), .uselessCommand(useless));
+	ANDmod And(.a(a), .b(b), .result(ab), .carryout(cout), .overflow(ovf), .zero(z));
 
 	initial begin
 	$display("A     B     | Exp  AB");
@@ -41,8 +43,9 @@ module testNORmod();
 	reg [4:0] a, b;
 	reg useless;
 	wire [4:0] naorb;
+	wire cout, ovf, z;
 
-	NORmod nOr(.a(a), .b(b), .naorb(naorb), .uselessCommand(useless));
+	NORmod nOr(.a(a), .b(b), .result(naorb), .carryout(cout), .overflow(ovf), .zero(z));
 
 	initial begin
 	$display("A     B     | Exp  nAorB");
@@ -53,35 +56,38 @@ module testNORmod();
 endmodule
 */
 
-/*
+
 module testORmod();
 	reg [4:0] a, b;
 	reg useless;
 	wire [4:0] aorb;
+	wire cout, ovf, z;
 
-	ORmod nOr(.a(a), .b(b), .aorb(aorb), .uselessCommand(useless));
+	ORmod nOr(.a(a), .b(b), .result(aorb), .carryout(cout), .overflow(ovf), .zero(z));
 
 	initial begin
-	$display("A     B     | Exp  AorB");
+	$display("A     B     | Exp   AorB  | Exp 0");
 	a = 5'b11001; b = 5'b01001; useless = 0; #1000
-	$display("%b %b | 11001 %b", a, b, aorb);
+	$display("%b %b | 11001 %b | %b %b %b", a, b, aorb, cout, ovf, z);
 	end 
 
 endmodule
-*/
 
 
+/*
 module testXORmod();
 	reg [4:0] a, b;
 	reg useless;
 	wire [4:0] x_or;
+	wire cout, ovf, z;
 
-	XORmod nOr(.a(a), .b(b), .x_or(x_or), .uselessCommand(useless));
+	XORmod nOr(.a(a), .b(b), .result(x_or), .carryout(cout), .overflow(ovf), .zero(z));
 
 	initial begin
-	$display("A     B     | Exp  xAorB");
-	a = 5'b10001; b = 5'b01001; useless = 0; #1000
-	$display("%b %b | 11000 %b", a, b, x_or);
+	$display("A     B     | Exp  xAorB  | Exp 0");
+	a = 5'b10001; b = 5'b01001; #1000
+	$display("%b %b | 11000 %b | %b %b %b", a, b, x_or, cout ,ovf, z);
 	end 
 
 endmodule
+*/
