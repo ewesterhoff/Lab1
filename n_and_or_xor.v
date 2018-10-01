@@ -74,71 +74,101 @@ module NANDmod #( parameter n = 4)
 	(
 	input[n:0] a,
 	input[n:0] b,
-	input uselessCommand,
-	output[n:0] nab
+	output[n:0] result,
+	output carryout,
+	output overflow, 
+	output zero
 		);
 
 	genvar m;
 	generate for (m = 0; m < n + 1; m = m + 1) begin
-		nAnd form_nAnd(.a(a[m]), .b(b[m]), .nab(nab[m]));
+		nAnd form_nAnd(.a(a[m]), .b(b[m]), .nab(result[m]));
 	end endgenerate
+
+	assign carryout = 0;
+	assign overflow = 0;
+	assign zero = 0;
 endmodule 
 
 module ANDmod # (parameter n = 4)
 	(
 	input[n:0] a,
 	input[n:0] b,
-	input uselessCommand,
-	output[n:0] ab
+	output[n:0] result,
+	output carryout,
+	output overflow, 
+	output zero
 		);
 
 	genvar m;
 	generate for (m = 0; m < n + 1; m = m + 1) begin
-		And form_And(.a(a[m]), .b(b[m]), .ab(ab[m]));
+		And form_And(.a(a[m]), .b(b[m]), .ab(result[m]));
 	end endgenerate
+
+	assign carryout = 0;
+	assign overflow = 0;
+	assign zero = 0;
 endmodule
 
 module NORmod # (parameter n = 4)
 	(
 	input[n:0] a,
 	input[n:0] b,
-	input uselessCommand,
-	output[n:0] naorb
+	output[n:0] result,
+	output carryout,
+	output overflow, 
+	output zero
 		);
 
 	genvar m;
 	generate for (m = 0; m < n + 1; m = m + 1) begin
-		nOr form_nOr(.a(a[m]), .b(b[m]), .naorb(naorb[m]));
+		nOr form_nOr(.a(a[m]), .b(b[m]), .naorb(result[m]));
 	end endgenerate
+
+	assign carryout = 0;
+	assign overflow = 0;
+	assign zero = 0;
 endmodule
 
 module ORmod # (parameter n = 4)
 	(
 	input[n:0] a,
 	input[n:0] b,
-	input uselessCommand,
-	output[n:0] aorb
+	output[n:0] result,
+	output carryout,
+	output overflow, 
+	output zero
 		);
 
 	genvar m;
 	generate for (m = 0; m < n + 1; m = m + 1) begin
-		Or form_Or(.a(a[m]), .b(b[m]), .aorb(aorb[m]));
+		Or form_Or(.a(a[m]), .b(b[m]), .aorb(result[m]));
 	end endgenerate
+
+	assign carryout = 0;
+	assign overflow = 0;
+	assign zero = 0;
 endmodule
 
 
 module XORmod # (parameter n = 4)
 	(
 	input[n:0] a,
-	input[n:0] b, 
-	input uselessCommand, 
-	output[n:0] x_or
+	input[n:0] b,  
+	output[n:0] result,
+	output carryout,
+	output overflow, 
+	output zero
 		);
 		
 	genvar m;
 	generate for (m = 0; m < n + 1; m = m + 1) begin
-		xOr form_xOr(.a(a[m]), .b(b[m]), .x_or(x_or[m]));
+		xOr form_xOr(.a(a[m]), .b(b[m]), .x_or(result[m]));
 	end endgenerate
+
+	assign carryout = 0;
+	assign overflow = 0;
+	assign zero = 0;
 endmodule
 
 
