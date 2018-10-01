@@ -27,7 +27,7 @@ module AddSubN #( parameter n = 9 )
     output overflow,  // True if the calculation resulted in an overflow
     input[n:0] a,     // First operand in 2's complement format
     input[n:0] b,      // Second operand in 2's complement format
-    input[2:0] command
+    input subtract
 );
     wire atest, btest;
     wire cout[n+1:0];
@@ -58,17 +58,15 @@ endmodule
 module SLTmod #( parameter n = 9 )
 (
     output slt,
-    output carryout,
+    output[n:0] sub,
     output overflow,
     input[n:0] a, b,
     input uselessCommand
 );
     wire[n:0] sub;
-    wire overflow0, carryout0;
+    wire overflow, carryout;
 
-    AddSubN adder (sub, carryout0, overflow0, a, b, 1'b1);
+    AddSubN adder (sub, carryout, overflow, a, b, 1'b1);
 
-    `XOR SLTXOR(slt, sub[n], overflow0);
-
-    assign carryout, overflow = 0;
+    `XOR SLTXOR(slt, sub[n], overflow);
 endmodule
