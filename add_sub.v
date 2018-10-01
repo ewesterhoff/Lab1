@@ -24,10 +24,11 @@ module AddSubN #( parameter n = 9 )
 (
     output[n:0] sum,  // 2's complement sum of a and b
     output carryout,  // Carry out of the summation of a and b
+    output zero,
     output overflow,  // True if the calculation resulted in an overflow
     input[n:0] a,     // First operand in 2's complement format
     input[n:0] b,      // Second operand in 2's complement format
-    input[2:0] command
+    input subtract
 );
     wire atest, btest;
     wire cout[n+1:0];
@@ -46,6 +47,7 @@ module AddSubN #( parameter n = 9 )
     end endgenerate
 
     assign carryout = cout[n+1];
+    assign zero = 0;
 
     // Determine overflow based on most significant bit.
     // Overflow occurrs when a[3]=b[3]=0 and sum[3]=1. OR a[3]=b[3]=1 and sum[3]=0
@@ -59,6 +61,7 @@ module SLTmod #( parameter n = 9 )
 (
     output slt,
     output carryout,
+    output zero,
     output overflow,
     input[n:0] a, b,
     input uselessCommand
@@ -70,5 +73,7 @@ module SLTmod #( parameter n = 9 )
 
     `XOR SLTXOR(slt, sub[n], overflow0);
 
-    assign carryout, overflow = 0;
+    assign carryout = 0;
+    assign overflow = 0;
+    assign zero = 0;
 endmodule
