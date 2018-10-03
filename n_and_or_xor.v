@@ -7,7 +7,7 @@
 // Basic one-bit gates
 module nAnd
 	(
-	input a, 
+	input a,
 	input b,
 	output nab
 		);
@@ -16,8 +16,8 @@ module nAnd
 endmodule
 
 module And
-	(	
-	input a, 
+	(
+	input a,
 	input b,
 	output ab
 		);
@@ -25,11 +25,11 @@ module And
 
 	nAnd n_And(.a(a), .b(b), .nab(nab));
 	`NOT not1(ab, nab);
-endmodule	
+endmodule
 
 module nOr
 	(
-	input a, 
+	input a,
 	input b,
 	output naorb
 		);
@@ -39,7 +39,7 @@ endmodule
 
 module Or
 	(
-	input a, 
+	input a,
 	input b,
 	output aorb
 		);
@@ -51,7 +51,7 @@ endmodule
 
 module xOr
 	(
-	input a, 
+	input a,
 	input b,
 	output x_or
 		);
@@ -70,14 +70,15 @@ endmodule
 
 
 // Forming n bit bitslices:
-module NANDmod #( parameter n = 4)
+module NANDmod #( parameter n = 31)
 	(
-	input[n:0] a,
-	input[n:0] b,
-	output[n:0] result,
-	output carryout,
-	output overflow, 
-	output zero
+		output[n:0] result,
+		output carryout,
+		output zero,
+		output overflow,
+		input[n:0] a,
+		input[n:0] b,
+		input subtract
 		);
 
 	genvar m;
@@ -88,16 +89,17 @@ module NANDmod #( parameter n = 4)
 	assign carryout = 0;
 	assign overflow = 0;
 	assign zero = 0;
-endmodule 
+endmodule
 
-module ANDmod # (parameter n = 4)
+module ANDmod # (parameter n = 31)
 	(
-	input[n:0] a,
-	input[n:0] b,
 	output[n:0] result,
 	output carryout,
-	output overflow, 
-	output zero
+	output zero,
+	output overflow,
+	input[n:0] a,
+	input[n:0] b,
+	input subtract
 		);
 
 	genvar m;
@@ -110,14 +112,15 @@ module ANDmod # (parameter n = 4)
 	assign zero = 0;
 endmodule
 
-module NORmod # (parameter n = 4)
+module NORmod # (parameter n = 31)
 	(
-	input[n:0] a,
-	input[n:0] b,
-	output[n:0] result,
-	output carryout,
-	output overflow, 
-	output zero
+		output[n:0] result,
+		output carryout,
+		output zero,
+		output overflow,
+		input[n:0] a,
+		input[n:0] b,
+		input subtract
 		);
 
 	genvar m;
@@ -130,14 +133,15 @@ module NORmod # (parameter n = 4)
 	assign zero = 0;
 endmodule
 
-module ORmod # (parameter n = 4)
+module ORmod # (parameter n = 31)
 	(
-	input[n:0] a,
-	input[n:0] b,
-	output[n:0] result,
-	output carryout,
-	output overflow, 
-	output zero
+		output[n:0] result,
+		output carryout,
+		output zero,
+		output overflow,
+		input[n:0] a,
+		input[n:0] b,
+		input subtract
 		);
 
 	genvar m;
@@ -151,16 +155,17 @@ module ORmod # (parameter n = 4)
 endmodule
 
 
-module XORmod # (parameter n = 4)
+module XORmod # (parameter n = 31)
 	(
-	input[n:0] a,
-	input[n:0] b,  
-	output[n:0] result,
-	output carryout,
-	output overflow, 
-	output zero
+		output[n:0] result,
+		output carryout,
+		output zero,
+		output overflow,
+		input[n:0] a,
+		input[n:0] b,
+		input subtract
 		);
-		
+
 	genvar m;
 	generate for (m = 0; m < n + 1; m = m + 1) begin
 		xOr form_xOr(.a(a[m]), .b(b[m]), .x_or(result[m]));
@@ -170,5 +175,3 @@ module XORmod # (parameter n = 4)
 	assign overflow = 0;
 	assign zero = 0;
 endmodule
-
-
