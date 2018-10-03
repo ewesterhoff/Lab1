@@ -22,20 +22,21 @@ module mux
   //assign result = { 16{a[15]}, a };
   //module SignExtension(a, result);
 
-// input [15:0] a; // 16-bit input
-// output [31:0] result; // 32-bit output
-//
-// assign result = { 16{a[31]}, a };
-//
-// endmodule
+  // input [15:0] a; // 16-bit input
+  // output [31:0] result; // 32-bit output
+  //
+  // assign result = { 16{a[31]}, a };
+  //
+  // endmodule
+
   `AND andgateA(m0,resultBus[0],ncommand[0],ncommand[1], ncommand[2]);
-  `AND andgateB(m1,resultBus[0],command[0],ncommand[1], ncommand[2]);
-  `AND andgateC(m2,resultBus[0],ncommand[0],command[1], ncommand[2]);
-  `AND andgateD(m3,resultBus[0],command[0],command[1], ncommand[2]);
-  `AND andgateE(m4,resultBus[0],ncommand[0],ncommand[1], command[2]);
-  `AND andgateF(m5,resultBus[0],command[0],ncommand[1], command[2]);
-  `AND andgateG(m6,resultBus[0],ncommand[0],command[1], command[2]);
-  `AND andgateH(m7,resultBus[0],command[0],command[1], command[2]);
+  `AND andgateB(m1,resultBus[1],command[0],ncommand[1], ncommand[2]);
+  `AND andgateC(m2,resultBus[2],ncommand[0],command[1], ncommand[2]);
+  `AND andgateD(m3,resultBus[3],command[0],command[1], ncommand[2]);
+  `AND andgateE(m4,resultBus[4],ncommand[0],ncommand[1], command[2]);
+  `AND andgateF(m5,resultBus[5],command[0],ncommand[1], command[2]);
+  `AND andgateG(m6,resultBus[6],ncommand[0],command[1], command[2]);
+  `AND andgateH(m7,resultBus[7],command[0],command[1], command[2]);
 
   `OR orgate(out,m0,m1,m2,m3,m4,m5,m6,m7);
   endmodule
