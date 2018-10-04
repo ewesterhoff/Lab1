@@ -1,8 +1,8 @@
 // Adder circuit
-`define AND and #50
-`define OR or #50
+`define AND and #20
+`define OR or #20
 `define XOR xor #50
-`define NOT not #50
+`define NOT not #10
 //`define n 5
 
 module mux
