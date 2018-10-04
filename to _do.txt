@@ -1,5 +1,3 @@
 Check timing delays, some aren't entirely correct
-fix overflow problem with add-sub, see alu_functions.t.v
-fix and/nand tests
 comment code
 create more exhaustive test cases, 8 cases per module?

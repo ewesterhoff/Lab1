@@ -1,13 +1,12 @@
 // Adder circuit
-`define AND and #20
+`define AND and #30
 `define AND4 and #50
-`define OR or #20
-`define XOR xor #50
+`define OR or #30
+`define XOR xor #100
 `define NOT not #10
 `define NAND nand #10
 `define NOR nor #10
 `define OR5 or #60
-`define BUF buf #20
 
 module structuralMultiplexer5
 (
@@ -61,16 +60,7 @@ module AddSubN
 
     `XOR subtest(bsub, b, subtract);
 
-
     structuralFullAdder adder (sum, carryout, a, bsub, carryin);
-    // Determine overflow based on most significant bit.
-    // Overflow occurrs when a[3]=b[3]=0 and sum[3]=1. OR a[3]=b[3]=1 and sum[3]=0
-
-    `XOR ATEST(atest, sum, a);
-    `XOR BTEST(btest, sum, bsub);
-
-    `AND OVERFLOW(overflow, atest, btest);
-    // shorter overflow calculation?
 endmodule
 
 module SLTmod #( parameter n = 31 )
@@ -81,7 +71,7 @@ module SLTmod #( parameter n = 31 )
     input[n:0] a, b
 );
     wire[n:0] sub;
-    wire overflow0, carryout0;
+    wire carryout0;
     wire subtract;
 
     wire[32:0] carryin0;
@@ -91,12 +81,16 @@ module SLTmod #( parameter n = 31 )
 
    	genvar i;
    	generate for (i = 0; i < 32; i = i + 1) begin
-   			AddSubN adder(.sum(sub[i]), .carryout(carryin0[i+1]), .overflow(overflow0), .a(a[i]), .b(b[i]), .carryin(carryin0[i]), .subtract(subtract));
+   			AddSubN adder(.sum(sub[i]), .carryout(carryin0[i+1]), .a(a[i]), .b(b[i]), .carryin(carryin0[i]), .subtract(subtract));
      end
    	endgenerate
 
-    `XOR SLTXOR(slt[0], sub[n], overflow0);
+    //calculate overflow for adder; overflow if final carryout is not equal to carryin of most significant bit
+    //used only to calculate SLT, not actual overflow output
+  	`XOR OVERFLOW(over, carryin0[32], carryin0[31]);
+    `XOR SLTXOR(slt[0], sub[n], over);
 
+    assign slt[31:1] = 0;
     assign carryout = 0;
     assign overflow = 0;
 endmodule
