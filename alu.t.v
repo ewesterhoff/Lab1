@@ -8,51 +8,179 @@ module testALU();
     wire [31:0] result;
     wire carryout, zero, overflow;
 
+/*
+
+    module ALU
+        (
+        output[31:0]  result,
+        output        carryout,
+        output        zero,
+        output        overflow,
+        input[31:0]   operandA,
+        input[31:0]   operandB,
+        input[2:0]    command
+        );
+
+*/
+
     ALU aluer (result, carryout, zero, overflow, operandA, operandB, command);
+
+    /* Example of if statement 
+        command=3'b110; #4000
+        if(result != 32'b11111111111111111111111111150001) $display("NOR Test Failed - result: %b%b%b%b", result[3], result[2], result[1], result[0]);
+        if(zero != 0) $display("ZERO FAILED - was not 0");
+*/
 
     initial begin
         $dumpfile("alu.vcd");
         $dumpvars();
-        $display(" A    B   Command | Result Cout Zero   Over  | Eresult Ecout Ezero   Eover");
-        // ADD test
-        command=`ADD; operandA=32'h000A0000; operandB=32'h00000070; #1000
-        $display("%b %b %b |  %b   %b  $b %b    | 0  0   0   0", operandA, operandB, command, result, carryout, zero, overflow);
-        command=`ADD; operandA=32'h7FFFFFFF; operandB=32'h7FFFFFFF; #1000
-        command=`ADD; operandA=32'h00000001; operandB=32'hFFFFFFFF; #1000
-        command=`ADD; operandA=32'h80000000; operandB=32'h80000000; #1000
-        // SUB test
-        command=`SUB; operandA=32'h000A0000; operandB=32'hFFFFFF81; #1000
-        command=`SUB; operandA=32'h7FFFFFFF; operandB=32'h80000001; #1000
-        command=`SUB; operandA=32'h00000001; operandB=32'h00000001; #1000
-        command=`SUB; operandA=32'h80000000; operandB=32'h80000000; #1000
-        // XOR test
-        // command=`XOR; operandA=32'h88888888; operandB=32'h11111111; #1000
-        // command=`XOR; operandA=32'hCCCCCCCC; operandB=32'hCCCCCCCC; #1000
-        // command=`XOR; operandA=32'hBBBBBBBB; operandB=32'h55555555; #1000
-        // SLT test
-        command=`SLT; operandA=32'h00000001; operandB=32'h01000000; #1000   //positive numbers
-        command=`SLT; operandA=32'h01000000; operandB=32'h00000001; #1000
-        command=`SLT; operandA=32'h80000000; operandB=32'hF0000000; #1000   //negative numbers
-        command=`SLT; operandA=32'hF0000000; operandB=32'h80000000; #1000
-        command=`SLT; operandA=32'h80000000; operandB=32'h01000000; #1000   //positive and negative numbers
-        command=`SLT; operandA=32'h01000000; operandB=32'h80000000; #1000
-        command=`SLT; operandA=32'h00000000; operandB=32'h00000000; #1000   //zero
-        // AND test
-        // command=`AND; operandA=32'h88888888; operandB=32'h11111111; #1000
-        // command=`AND; operandA=32'hCCCCCCCC; operandB=32'hCCCCCCCC; #1000
-        // command=`AND; operandA=32'hBBBBBBBB; operandB=32'h55555555; #1000
-        // // NAND test
-        // command=`NAND; operandA=32'h88888888; operandB=32'h11111111; #1000
-        // command=`NAND; operandA=32'hCCCCCCCC; operandB=32'hCCCCCCCC; #1000
-        // command=`NAND; operandA=32'hBBBBBBBB; operandB=32'h55555555; #1000
-        // // NOR test
-        // command=`NOR; operandA=32'h88888888; operandB=32'h11111111; #1000
-        // command=`NOR; operandA=32'hCCCCCCCC; operandB=32'hCCCCCCCC; #1000
-        // command=`NOR; operandA=32'hBBBBBBBB; operandB=32'h55555555; #1000
-        // // OR test
-        // command=`OR; operandA=32'h88888888; operandB=32'h11111111; #1000
-        // command=`OR; operandA=32'hCCCCCCCC; operandB=32'hCCCCCCCC; #1000
-        // command=`OR; operandA=32'hBBBBBBBB; operandB=32'h55555555; #1000
+
+        $display("Starting ADD tests");
+        // ADD test 1
+        command=`ADD; operandA=32'h000A0000; operandB=32'h00000070; #5000   // carryout = 0
+        if(result != 32'h000A0070) $display("ADD test 1 failed - result: %h, expected: 000A0070", result);
+        if(carryout != 1'b0) $display("ADD test 1 failed - carryout: %h, expected: 0", carryout);
+        if(zero != 1'b0) $display("ADD test 1 failed - zero: %h, expected: 0", zero);
+        if(overflow != 1'b0) $display("ADD test 1 failed - overflow: %h, expected: 0", overflow);
+        // ADD test 2
+        command=`ADD; operandA=32'h7FFFFFFF; operandB=32'h7FFFFFFF; #5000
+        if(result != 32'hFFFFFFFE) $display("ADD test 2 failed - result: %h, expected: FFFFFFFE", result);
+        if(carryout != 1'b0) $display("ADD test 2 failed - carryout: %h, expected: 0", carryout);
+        if(zero != 1'b0) $display("ADD test 2 failed - zero: %h, expected: 0", zero);
+        if(overflow != 1'b1) $display("ADD test 2 failed - overflow: %h, expected: 1", overflow);
+        // ADD test 3
+        command=`ADD; operandA=32'h00000001; operandB=32'hFFFFFFFF; #5000
+        if(result != 32'h00000000) $display("ADD test 3 failed - result: %h, expected: 00000000", result);
+        if(carryout != 1'b1) $display("ADD test 3 failed - carryout: %h, expected: 1", carryout);
+        if(zero != 1'b1) $display("ADD test 3 failed - zero: %h, expected: 1", zero);
+        if(overflow != 1'b0) $display("ADD test 3 failed - overflow: %h, expected: 0", overflow);
+        // ADD test 4
+        command=`ADD; operandA=32'h80000000; operandB=32'h80000000; #5000
+        if(result != 32'h00000000) $display("ADD test 4 failed - result: %h, expected: 00000000", result);
+        if(carryout != 1'b1) $display("ADD test 4 failed - carryout: %h, expected: 1", carryout);
+        if(zero != 1'b1) $display("ADD test 4 failed - zero: %h, expected: 1", zero);
+        if(overflow != 1'b1) $display("ADD test 4 failed - overflow: %h, expected: 1", overflow);
+
+        $display("Starting SUB tests");
+        // SUB test 1
+        command=`SUB; operandA=32'h000A0000; operandB=32'h00000070; #5000
+        if(result != 32'h0009FF90) $display("SUB test 1 failed - result: %h, expected: 0009FF90", result);
+        if(carryout != 1'b0) $display("SUB test 1 failed - carryout: %h, expected: 0", carryout);
+        if(zero != 1'b0) $display("SUB test 1 failed - zero: %h, expected: 0", zero);
+        if(overflow != 1'b0) $display("SUB test 1 failed - overflow: %h, expected: 0", overflow);
+        // SUB test 2
+        command=`SUB; operandA=32'h7FFFFFFF; operandB=32'h80000001; #5000
+        if(result != 32'hFFFFFFFE) $display("SUB test 2 failed - result: %h, expected: FFFFFFFE", result);
+        if(carryout != 1'b0) $display("SUB test 2 failed - carryout: %h, expected: 0", carryout);
+        if(zero != 1'b0) $display("SUB test 2 failed - zero: %h, expected: 0", zero);
+        if(overflow != 1'b1) $display("SUB test 2 failed - overflow: %h, expected: 1", overflow);
+        // SUB test 3
+        command=`SUB; operandA=32'h00000001; operandB=32'h00000001; #5000
+        if(result != 32'h00000000) $display("SUB test 3 failed - result: %h, expected: 00000000", result);
+        if(carryout != 1'b1) $display("SUB test 3 failed - carryout: %h, expected: 1", carryout);
+        if(zero != 1'b1) $display("SUB test 3 failed - zero: %h, expected: 1", zero);
+        if(overflow != 1'b0) $display("SUB test 3 failed - overflow: %h, expected: 0", overflow);
+        //SUB test 4
+        command=`SUB; operandA=32'h80000000; operandB=32'h80000000; #5000
+        if(result != 32'h00000000) $display("SUB test 4 failed - result: %h, expected: 00000000", result);
+        if(carryout != 1'b1) $display("SUB test 4 failed - carryout: %h, expected: 1", carryout);
+        if(zero != 1'b1) $display("SUB test 4 failed - zero: %h, expected: 1", zero);
+        if(overflow != 1'b1) $display("SUB test 4 failed - overflow: %h, expected: 1", overflow);
+
+        $display("Starting XOR tests");
+        // XOR test 1
+        command=`XOR; operandA=32'h88888888; operandB=32'h11111111; #5000
+        if(result != 32'h99999999) $display("XOR test 1 failed - result: %h, expected: 99999999", result);
+        if(zero != 1'b0) $display("XOR test 1 failed - zero: %h, expected: 0", zero);
+        // XOR test 2
+        command=`XOR; operandA=32'hCCCCCCCC; operandB=32'hCCCCCCCC; #5000
+        if(result != 32'h00000000) $display("XOR test 2 failed - result: %h, expected: 00000000", result);
+        if(zero != 1'b1) $display("XOR test 2 failed - zero: %h, expected: 1", zero);
+        // XOR test 3
+        command=`XOR; operandA=32'hBBBBBBBB; operandB=32'h55555555; #5000
+        if(result != 32'hEEEEEEEE) $display("XOR test 3 failed - result: %h, expected: EEEEEEEE", result);
+        if(zero != 1'b0) $display("XOR test 3 failed - zero: %h, expected: 0", zero);
+
+        $display("Starting SLT tests");
+        // SLT test 1
+        command=`SLT; operandA=32'h00000001; operandB=32'h05000000; #5000                                   //positive numbers
+        if(result != 32'h00000001) $display("SLT test 1 failed - result: %h, expected: 00000001", result);
+        // SLT test 2
+        command=`SLT; operandA=32'h05000000; operandB=32'h00000001; #5000
+        if(result != 32'h00000000) $display("SLT test 2 failed - result: %h, expected: 00000000", result);
+        // SLT test 3
+        command=`SLT; operandA=32'h80000000; operandB=32'hF0000000; #5000                                   //negative numbers
+        if(result != 32'h00000001) $display("SLT test 3 failed - result: %h, expected: 00000001", result);
+        // SLT test 4
+        command=`SLT; operandA=32'hF0000000; operandB=32'h80000000; #5000
+        if(result != 32'h00000000) $display("SLT test 4 failed - result: %h, expected: 00000000", result);
+        // SLT test 5
+        command=`SLT; operandA=32'h80000000; operandB=32'h05000000; #5000                                   //positive and negative numbers
+        if(result != 32'h00000001) $display("SLT test 5 failed - result: %h, expected: 00000001", result);
+        // SLT test 6
+        command=`SLT; operandA=32'h05000000; operandB=32'h80000000; #5000
+        if(result != 32'h00000000) $display("SLT test 6 failed - result: %h, expected: 00000000", result);
+        // SLT test 7
+        command=`SLT; operandA=32'h00000000; operandB=32'h00000000; #5000                                   //zeros
+        if(result != 32'h00000000) $display("SLT test 7 failed - result: %h, expected: 00000000", result);
+
+        $display("Starting AND tests");
+        // AND test 1
+        command=`AND; operandA=32'h88888888; operandB=32'h11111111; #5000
+        if(result != 32'h00000000) $display("AND test 1 failed - result: %h, expected: 00000000", result);
+        if(zero != 1'b1) $display("AND test 1 failed - zero: %h, expected: 1", zero);
+        // AND test 2
+        command=`AND; operandA=32'hCCCCCCCC; operandB=32'hCCCCCCCC; #5000
+        if(result != 32'hCCCCCCCC) $display("AND test 2 failed - result: %h, expected: CCCCCCCC", result);
+        if(zero != 1'b0) $display("AND test 2 failed - zero: %h, expected: 0", zero);
+        // AND test 3
+        command=`AND; operandA=32'hBBBBBBBB; operandB=32'h55555555; #5000
+        if(result != 32'h11111111) $display("AND test 3 failed - result: %h, expected: 11111111", result);
+        if(zero != 1'b0) $display("AND test 3 failed - zero: %h, expected: 0", zero);
+
+        $display("Starting NAND tests");
+        // NAND test 1
+        command=`NAND; operandA=32'h88888888; operandB=32'h11111111; #5000
+        if(result != 32'hFFFFFFFF) $display("NAND test 1 failed - result: %h, expected: FFFFFFFF", result);
+        if(zero != 1'b0) $display("NAND test 1 failed - zero: %h, expected: 0", zero);
+        // NAND test 2
+        command=`NAND; operandA=32'hCCCCCCCC; operandB=32'hCCCCCCCC; #5000
+        if(result != 32'h33333333) $display("NAND test 2 failed - result: %h, expected: 33333333", result);
+        if(zero != 1'b0) $display("NAND test 2 failed - zero: %h, expected: 0", zero);
+        // NAND test 3
+        command=`NAND; operandA=32'hBBBBBBBB; operandB=32'h55555555; #5000
+        if(result != 32'hEEEEEEEE) $display("NAND test 3 failed - result: %h, expected: EEEEEEEE", result);
+        if(zero != 1'b0) $display("NAND test 3 failed - zero: %h, expected: 0", zero);
+
+        $display("Starting NOR tests");
+        // NOR test 1
+        command=`NOR; operandA=32'h88888888; operandB=32'h11111111; #5000
+        if(result != 32'h99999999) $display("NOR test 1 failed - result: %h, expected: 99999999", result);
+        if(zero != 1'b0) $display("NOR test 1 failed - zero: %h, expected: 0", zero);
+        // NOR test 2
+        command=`NOR; operandA=32'hCCCCCCCC; operandB=32'hCCCCCCCC; #5000
+        if(result != 32'hCCCCCCCC) $display("NOR test 2 failed - result: %h, expected: CCCCCCCC", result);
+        if(zero != 1'b0) $display("NOR test 2 failed - zero: %h, expected: 0", zero);
+        // NOR test 3
+        command=`NOR; operandA=32'hBBBBBBBB; operandB=32'h55555555; #5000
+        if(result != 32'hFFFFFFFF) $display("NOR test 3 failed - result: %h, expected: FFFFFFFF", result);
+        if(zero != 1'b0) $display("NOR test 3 failed - zero: %h, expected: 0", zero);
+
+        $display("Starting OR tests");
+        // OR test 1
+        command=`OR; operandA=32'h88888888; operandB=32'h11111111; #5000
+        if(result != 32'h66666666) $display("OR test 1 failed - result: %h, expected: 66666666", result);
+        if(zero != 1'b0) $display("OR test 1 failed - zero: %h, expected: 0", zero);
+        // OR test 2
+        command=`OR; operandA=32'hCCCCCCCC; operandB=32'hCCCCCCCC; #5000
+        if(result != 32'h33333333) $display("OR test 2 failed - result: %h, expected: 33333333", result);
+        if(zero != 1'b0) $display("OR test 2 failed - zero: %h, expected: 0", zero);
+        // OR test 3
+        command=`OR; operandA=32'hBBBBBBBB; operandB=32'h55555555; #5000
+        if(result != 32'h00000000) $display("OR test 3 failed - result: %h, expected: 00000000", result);
+        if(zero != 1'b1) $display("OR test 3 failed - zero: %h, expected: 1", zero);
+        
+        $display("Done");
         $finish();
     end
 endmodule
