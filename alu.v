@@ -8,6 +8,7 @@
 `define Nor  3'd6
 `define Or   3'd7
 `include "alu_function.v"
+`define OR32 or #330 //32 input NOR gate with an inverter
 
 module ALU
 (
@@ -19,20 +20,22 @@ input[31:0]   operandA,
 input[31:0]   operandB,
 input[2:0]    command
 );
+//declare wires
 	wire[31:0] out0, out1, out2, out3, out4;
 	wire cout0, cin0, over0;
 	wire cout1, over1, cout2, over2, cout3, over3, cout4, over4;
 	wire invert;
 	wire[2:0] muxindex;
-	// Your code here
-
+ //use LUT to get variable assignments for muxindex and invert depending on the input command
 	ALUcontrolLUT lut(.muxindex(muxindex), .invert(invert), .ALUcommand(command));
-  assign cin0 = invert;
+ //first carryin of add-subtract module is identical to the invert signal
+	assign cin0 = invert;
 
+ //bit slice approach, generate 32 of each module for full capability
 	genvar i;
 	generate for (i = 0; i < 31; i = i + 1) begin
 			AddSubN adder(.sum(out0[i]), .carryout(cout0), .overflow(over0), .a(operandA[i]), .b(operandB[i]), .carryin(cin0), .subtract(invert));
-			assign cout0 = cin0;
+			assign cout0 = cin0; //carryout of add-subtract module n is the carryin of module n+1 when daisy-chaining
 
 			XORmod xorer(.out(out1[i]), .carryout(cout1), .overflow(over1), .a(operandA[i]), .b(operandB[i]));
 
@@ -44,11 +47,17 @@ input[2:0]    command
   end
 	endgenerate
 
+ //mux between generated outputs depending on muxindex given by ALUcommand
 	genvar n;
 	generate for (n = 0; n < 31; n = n + 1) begin
 			structuralMultiplexer5 mux (.out(result[n]), .command(muxindex), .in0(out0[n]), .in1(out1[n]), .in2(out2[n]), .in3(out3[n]), .in4(out4[n]));
   end
 	endgenerate
+
+	//if all bits of the result are zero, the output zero should return zero
+	`OR32 orgate(zero, result[0], result[1], result[2], result[3], result[4], result[5], result[6], result[7], result[8], result[9], result[10],
+		result[11], result[12], result[13], result[14], result[15], result[16], result[17], result[18], result[19], result[20], result[21], result[22],
+		result[23], result[24], result[25], result[26], result[27], result[28], result[29], result[30], result[31]);
 
 endmodule
 

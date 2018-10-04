@@ -1,10 +1,12 @@
 // Adder circuit
 `define AND and #20
+`define AND4 and #50
 `define OR or #20
 `define XOR xor #50
 `define NOT not #10
 `define NAND nand #10
 `define NOR nor #10
+`define OR5 or #60
 
 module structuralMultiplexer5
 (
@@ -19,13 +21,13 @@ module structuralMultiplexer5
     `NOT invB(ncommand[1], command[1]);
     `NOT invC(ncommand[2], command[2]);
 
-    `AND andgateA(m0,in0,ncommand[0],ncommand[1], ncommand[2]);
-    `AND andgateB(m1,in1,command[0],ncommand[1], ncommand[2]);
-    `AND andgateC(m2,in2,ncommand[0],command[1], ncommand[2]);
-    `AND andgateD(m3,in3,command[0],command[1], ncommand[2]);
-    `AND andgateE(m4,in4,ncommand[0],ncommand[1], command[2]);
+    `AND4 andgateA(m0,in0,ncommand[0],ncommand[1], ncommand[2]);
+    `AND4 andgateB(m1,in1,command[0],ncommand[1], ncommand[2]);
+    `AND4 andgateC(m2,in2,ncommand[0],command[1], ncommand[2]);
+    `AND4 andgateD(m3,in3,command[0],command[1], ncommand[2]);
+    `AND4 andgateE(m4,in4,ncommand[0],ncommand[1], command[2]);
 
-    `OR orgate(out,m0,m1,m2,m3,m4);
+    `OR5 orgate(out,m0,m1,m2,m3,m4);
 endmodule
 
 module structuralFullAdder
