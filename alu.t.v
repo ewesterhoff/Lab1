@@ -25,7 +25,7 @@ module testALU();
 
     ALU aluer (result, carryout, zero, overflow, operandA, operandB, command);
 
-    /* Example of if statement 
+    /* Example of if statement
         command=3'b110; #4000
         if(result != 32'b11111111111111111111111111150001) $display("NOR Test Failed - result: %b%b%b%b", result[3], result[2], result[1], result[0]);
         if(zero != 0) $display("ZERO FAILED - was not 0");
@@ -89,15 +89,15 @@ module testALU();
 
         $display("Starting XOR tests");
         // XOR test 1
-        command=`XOR; operandA=32'h88888888; operandB=32'h11111111; #5000
+        command=`Xor; operandA=32'h88888888; operandB=32'h11111111; #5000
         if(result != 32'h99999999) $display("XOR test 1 failed - result: %h, expected: 99999999", result);
         if(zero != 1'b0) $display("XOR test 1 failed - zero: %h, expected: 0", zero);
         // XOR test 2
-        command=`XOR; operandA=32'hCCCCCCCC; operandB=32'hCCCCCCCC; #5000
+        command=`Xor; operandA=32'hCCCCCCCC; operandB=32'hCCCCCCCC; #5000
         if(result != 32'h00000000) $display("XOR test 2 failed - result: %h, expected: 00000000", result);
         if(zero != 1'b1) $display("XOR test 2 failed - zero: %h, expected: 1", zero);
         // XOR test 3
-        command=`XOR; operandA=32'hBBBBBBBB; operandB=32'h55555555; #5000
+        command=`Xor; operandA=32'hBBBBBBBB; operandB=32'h55555555; #5000
         if(result != 32'hEEEEEEEE) $display("XOR test 3 failed - result: %h, expected: EEEEEEEE", result);
         if(zero != 1'b0) $display("XOR test 3 failed - zero: %h, expected: 0", zero);
 
@@ -126,60 +126,60 @@ module testALU();
 
         $display("Starting AND tests");
         // AND test 1
-        command=`AND; operandA=32'h88888888; operandB=32'h11111111; #5000
+        command=`And; operandA=32'h88888888; operandB=32'h11111111; #5000
         if(result != 32'h00000000) $display("AND test 1 failed - result: %h, expected: 00000000", result);
         if(zero != 1'b1) $display("AND test 1 failed - zero: %h, expected: 1", zero);
         // AND test 2
-        command=`AND; operandA=32'hCCCCCCCC; operandB=32'hCCCCCCCC; #5000
+        command=`And; operandA=32'hCCCCCCCC; operandB=32'hCCCCCCCC; #5000
         if(result != 32'hCCCCCCCC) $display("AND test 2 failed - result: %h, expected: CCCCCCCC", result);
         if(zero != 1'b0) $display("AND test 2 failed - zero: %h, expected: 0", zero);
         // AND test 3
-        command=`AND; operandA=32'hBBBBBBBB; operandB=32'h55555555; #5000
+        command=`And; operandA=32'hBBBBBBBB; operandB=32'h55555555; #5000
         if(result != 32'h11111111) $display("AND test 3 failed - result: %h, expected: 11111111", result);
         if(zero != 1'b0) $display("AND test 3 failed - zero: %h, expected: 0", zero);
 
         $display("Starting NAND tests");
         // NAND test 1
-        command=`NAND; operandA=32'h88888888; operandB=32'h11111111; #5000
+        command=`Nand; operandA=32'h88888888; operandB=32'h11111111; #5000
         if(result != 32'hFFFFFFFF) $display("NAND test 1 failed - result: %h, expected: FFFFFFFF", result);
         if(zero != 1'b0) $display("NAND test 1 failed - zero: %h, expected: 0", zero);
         // NAND test 2
-        command=`NAND; operandA=32'hCCCCCCCC; operandB=32'hCCCCCCCC; #5000
+        command=`Nand; operandA=32'hCCCCCCCC; operandB=32'hCCCCCCCC; #5000
         if(result != 32'h33333333) $display("NAND test 2 failed - result: %h, expected: 33333333", result);
         if(zero != 1'b0) $display("NAND test 2 failed - zero: %h, expected: 0", zero);
         // NAND test 3
-        command=`NAND; operandA=32'hBBBBBBBB; operandB=32'h55555555; #5000
+        command=`Nand; operandA=32'hBBBBBBBB; operandB=32'h55555555; #5000
         if(result != 32'hEEEEEEEE) $display("NAND test 3 failed - result: %h, expected: EEEEEEEE", result);
         if(zero != 1'b0) $display("NAND test 3 failed - zero: %h, expected: 0", zero);
 
         $display("Starting NOR tests");
         // NOR test 1
-        command=`NOR; operandA=32'h88888888; operandB=32'h11111111; #5000
+        command=`Nor; operandA=32'h88888888; operandB=32'h11111111; #5000
         if(result != 32'h99999999) $display("NOR test 1 failed - result: %h, expected: 99999999", result);
         if(zero != 1'b0) $display("NOR test 1 failed - zero: %h, expected: 0", zero);
         // NOR test 2
-        command=`NOR; operandA=32'hCCCCCCCC; operandB=32'hCCCCCCCC; #5000
+        command=`Nor; operandA=32'hCCCCCCCC; operandB=32'hCCCCCCCC; #5000
         if(result != 32'hCCCCCCCC) $display("NOR test 2 failed - result: %h, expected: CCCCCCCC", result);
         if(zero != 1'b0) $display("NOR test 2 failed - zero: %h, expected: 0", zero);
         // NOR test 3
-        command=`NOR; operandA=32'hBBBBBBBB; operandB=32'h55555555; #5000
+        command=`Nor; operandA=32'hBBBBBBBB; operandB=32'h55555555; #5000
         if(result != 32'hFFFFFFFF) $display("NOR test 3 failed - result: %h, expected: FFFFFFFF", result);
         if(zero != 1'b0) $display("NOR test 3 failed - zero: %h, expected: 0", zero);
 
         $display("Starting OR tests");
         // OR test 1
-        command=`OR; operandA=32'h88888888; operandB=32'h11111111; #5000
+        command=`Or; operandA=32'h88888888; operandB=32'h11111111; #5000
         if(result != 32'h66666666) $display("OR test 1 failed - result: %h, expected: 66666666", result);
         if(zero != 1'b0) $display("OR test 1 failed - zero: %h, expected: 0", zero);
         // OR test 2
-        command=`OR; operandA=32'hCCCCCCCC; operandB=32'hCCCCCCCC; #5000
+        command=`Or; operandA=32'hCCCCCCCC; operandB=32'hCCCCCCCC; #5000
         if(result != 32'h33333333) $display("OR test 2 failed - result: %h, expected: 33333333", result);
         if(zero != 1'b0) $display("OR test 2 failed - zero: %h, expected: 0", zero);
         // OR test 3
-        command=`OR; operandA=32'hBBBBBBBB; operandB=32'h55555555; #5000
+        command=`Or; operandA=32'hBBBBBBBB; operandB=32'h55555555; #5000
         if(result != 32'h00000000) $display("OR test 3 failed - result: %h, expected: 00000000", result);
         if(zero != 1'b1) $display("OR test 3 failed - zero: %h, expected: 1", zero);
-        
+
         $display("Done");
         $finish();
     end
