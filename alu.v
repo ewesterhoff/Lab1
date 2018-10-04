@@ -26,16 +26,18 @@ input[2:0]    command
 	wire cout1, over1, cout2, over2, cout3, over3, cout4, over4;
 	wire invert;
 	wire[2:0] muxindex;
+
+	wire[32:0] carryin0;
+
  //use LUT to get variable assignments for muxindex and invert depending on the input command
 	ALUcontrolLUT lut(.muxindex(muxindex), .invert(invert), .ALUcommand(command));
  //first carryin of add-subtract module is identical to the invert signal
-	assign cin0 = invert;
+	assign carryin0[0] = invert;
 
  //bit slice approach, generate 32 of each module for full capability
 	genvar i;
 	generate for (i = 0; i < 31; i = i + 1) begin
-			AddSubN adder(.sum(out0[i]), .carryout(cout0), .overflow(over0), .a(operandA[i]), .b(operandB[i]), .carryin(cin0), .subtract(invert));
-			assign cin0 = cout0; //carryout of add-subtract module n is the carryin of module n+1 when daisy-chaining
+			AddSubN adder(.sum(out0[i]), .carryout(carryin0[i+1]), .overflow(over0), .a(operandA[i]), .b(operandB[i]), .carryin(carryin0[i]), .subtract(invert));
 
 			XORmod xorer(.out(out1[i]), .carryout(cout1), .overflow(over1), .a(operandA[i]), .b(operandB[i]));
 
@@ -47,6 +49,7 @@ input[2:0]    command
   end
 	endgenerate
 
+  assign cout0 = carryin0[2];
  //mux between generated outputs depending on muxindex given by ALUcommand
 	genvar n;
 	generate for (n = 0; n < 31; n = n + 1) begin

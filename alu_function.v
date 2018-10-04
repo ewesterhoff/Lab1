@@ -7,6 +7,7 @@
 `define NAND nand #10
 `define NOR nor #10
 `define OR5 or #60
+`define BUF buf #20
 
 module structuralMultiplexer5
 (
@@ -32,16 +33,15 @@ endmodule
 
 module structuralFullAdder
 (
-    output sum,
-    output carryout,
-    input a,
-    input b,
+    output sum, carryout,
+    input a, b,
     input carryin
 );
     wire axorb, ab, caxorb;
-    `XOR AXORB(axorb, a, b);
+
+    xor AXORB(axorb, a, b);
     `AND AANDB(ab, a, b);
-    `XOR SUM(sum, carryin, axorb);
+    xor SUM(sum, carryin, axorb);
     `AND CAXORB(caxorb, carryin, axorb);
     `OR  CARRYOUT(carryout, caxorb, ab);
 endmodule
@@ -59,14 +59,16 @@ module AddSubN
     wire atest, btest;
     wire bsub;
 
-    `XOR SUBTEST(bsub, b, subtract);
+    `XOR subtest(bsub, b, subtract);
 
-    structuralFullAdder adder(sum, carryout, a, bsub, carryin);
 
+    structuralFullAdder adder (sum, carryout, a, bsub, carryin);
     // Determine overflow based on most significant bit.
     // Overflow occurrs when a[3]=b[3]=0 and sum[3]=1. OR a[3]=b[3]=1 and sum[3]=0
+    
     `XOR ATEST(atest, sum, a);
     `XOR BTEST(btest, sum, bsub);
+
     `AND OVERFLOW(overflow, atest, btest);
     // shorter overflow calculation?
 endmodule
