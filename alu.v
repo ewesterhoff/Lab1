@@ -50,6 +50,8 @@ input[2:0]    command
 	SLTmod slter (.slt(out2), .carryout(cout2), .overflow(over2), .a(operandA), .b(operandB));
 
   assign cout0 = carryin0[2];
+
+
  //mux between generated outputs depending on muxindex given by ALUcommand
 	genvar n;
 	generate for (n = 0; n < 31; n = n + 1) begin
@@ -78,8 +80,8 @@ input[2:0]	ALUcommand
       `SUB:  begin muxindex = 0; invert=1; end
       `Xor:  begin muxindex = 1; invert=0; end
       `SLT:  begin muxindex = 2; invert=0; end
-      `And:  begin muxindex = 3; invert=0; end
-      `Nand: begin muxindex = 3; invert=1; end
+      `Nand:  begin muxindex = 3; invert=0; end
+      `And: begin muxindex = 3; invert=1; end
       `Nor:  begin muxindex = 4; invert=0; end
       `Or:   begin muxindex = 4; invert=1; end
     endcase

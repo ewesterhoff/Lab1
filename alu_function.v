@@ -84,18 +84,18 @@ module SLTmod #( parameter n = 31 )
     wire overflow0, carryout0;
     wire subtract;
 
-    wire[2:0] carryin0;
+    wire[32:0] carryin0;
 
     assign subtract = 1'b1;
     assign carryin0[0] = subtract;
 
    	genvar i;
-   	generate for (i = 0; i < 2; i = i + 1) begin
+   	generate for (i = 0; i < 32; i = i + 1) begin
    			AddSubN adder(.sum(sub[i]), .carryout(carryin0[i+1]), .overflow(overflow), .a(a[i]), .b(b[i]), .carryin(carryin0[i]), .subtract(subtract));
      end
    	endgenerate
 
-    `XOR SLTXOR(slt[0], sub[n], overflow0);
+    `XOR SLTXOR(slt[31], sub[n], overflow0);
 
     assign carryout = 0;
     assign overflow = 0;
