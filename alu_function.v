@@ -65,7 +65,7 @@ module AddSubN
     structuralFullAdder adder (sum, carryout, a, bsub, carryin);
     // Determine overflow based on most significant bit.
     // Overflow occurrs when a[3]=b[3]=0 and sum[3]=1. OR a[3]=b[3]=1 and sum[3]=0
-    
+
     `XOR ATEST(atest, sum, a);
     `XOR BTEST(btest, sum, bsub);
 
@@ -73,7 +73,7 @@ module AddSubN
     // shorter overflow calculation?
 endmodule
 
-module SLTmod #( parameter n = 0 )
+module SLTmod #( parameter n = 31 )
 (
     output[n:0] slt,
     output carryout,
@@ -82,8 +82,18 @@ module SLTmod #( parameter n = 0 )
 );
     wire[n:0] sub;
     wire overflow0, carryout0;
+    wire subtract;
 
-    AddSubN adder (sub, carryout0, overflow0, a, b, 1'b1, 1'b1);
+    wire[2:0] carryin0;
+
+    assign subtract = 1'b1;
+    assign carryin0[0] = subtract;
+
+   	genvar i;
+   	generate for (i = 0; i < 2; i = i + 1) begin
+   			AddSubN adder(.sum(sub[i]), .carryout(carryin0[i+1]), .overflow(overflow), .a(a[i]), .b(b[i]), .carryin(carryin0[i]), .subtract(subtract));
+     end
+   	endgenerate
 
     `XOR SLTXOR(slt[0], sub[n], overflow0);
 

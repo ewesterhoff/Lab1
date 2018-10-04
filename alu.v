@@ -41,13 +41,13 @@ input[2:0]    command
 
 			XORmod xorer(.out(out1[i]), .carryout(cout1), .overflow(over1), .a(operandA[i]), .b(operandB[i]));
 
-			SLTmod slter (.slt(out2[i]), .carryout(cout2), .overflow(over2), .a(operandA[i]), .b(operandB[i]));
-
 			NANDmod nander(.out(out3[i]), .carryout(cout3), .overflow(over3), .a(operandA[i]), .b(operandB[i]), .invert(invert));
 
 			NORmod norer(.out(out3[i]), .carryout(cout3), .overflow(over3), .a(operandA[i]), .b(operandB[i]), .invert(invert));
   end
 	endgenerate
+
+	SLTmod slter (.slt(out2), .carryout(cout2), .overflow(over2), .a(operandA), .b(operandB));
 
   assign cout0 = carryin0[2];
  //mux between generated outputs depending on muxindex given by ALUcommand
