@@ -8,6 +8,8 @@
 `define NOR nor #10
 `define OR5 or #60
 
+// Mux for 5 inputs for bit slices 
+// AND gates set to 0 anything not called with 5 bit input
 module structuralMultiplexer5
 (
     output out,
@@ -30,6 +32,7 @@ module structuralMultiplexer5
     `OR5 orgate(out,m0,m1,m2,m3,m4);
 endmodule
 
+// Implementation of full adder for bitslices. Called by AddSubN
 module structuralFullAdder
 (
     output sum, carryout,
@@ -45,6 +48,7 @@ module structuralFullAdder
     `OR  CARRYOUT(carryout, caxorb, ab);
 endmodule
 
+//Add/Sub for bitslices. 
 module AddSubN
 (
     output sum,  // 2's complement sum of a and b
@@ -57,12 +61,14 @@ module AddSubN
 );
     wire atest, btest;
     wire bsub;
-
+    // allows for subtraction
     `XOR subtest(bsub, b, subtract);
 
     structuralFullAdder adder (sum, carryout, a, bsub, carryin);
 endmodule
 
+
+// SLT for bitslices. Uses AddSubN as a subtractor to determine relative magnitude of a and b
 module SLTmod #( parameter n = 31 )
 (
     output[n:0] slt,
@@ -88,6 +94,8 @@ module SLTmod #( parameter n = 31 )
     //calculate overflow for adder; overflow if final carryout is not equal to carryin of most significant bit
     //used only to calculate SLT, not actual overflow output
   	`XOR OVERFLOW(over, carryin0[32], carryin0[31]);
+    // a larger than b if final bit of subraction if overflow != msb of subtraction
+    // in case where both are 0, both inputs were equal so SLT = 0 anyway
     `XOR SLTXOR(slt[0], sub[n], over);
 
     assign slt[31:1] = 0;
@@ -95,6 +103,8 @@ module SLTmod #( parameter n = 31 )
     assign overflow = 0;
 endmodule
 
+
+// XOR for bitslices. Carryout and overflow do not apply
 module XORmod
 (
     output out,
@@ -107,32 +117,36 @@ module XORmod
     assign overflow = 0;
 endmodule
 
+
+// NAND for bislices. 
 module NANDmod
 (
     output out,
     output carryout,
     output overflow,
     input a, b,
-    input invert
+    input invert    // if invert = 1 functions as an AND module
 );
     wire interim_out;
     `NAND nandgate(interim_out, a, b);
-    `XOR xorgate(out, interim_out, invert);
+    `XOR xorgate(out, interim_out, invert);     // Will invert NAND output if meant to function as AND module
     assign carryout = 0;
     assign overflow = 0;
 endmodule
 
+
+// NOR for bitslices.
 module NORmod
 (
     output out,
     output carryout,
     output overflow,
     input a, b,
-    input invert
+    input invert    // if invert = 1 functions as an OR module
 );
     wire interim_out;
     `NOR norgate(interim_out, a, b);
-    `XOR xorgate(out, interim_out, invert);
+    `XOR xorgate(out, interim_out, invert); // Will invert NAND output if meant to function as OR module
     assign carryout = 0;
     assign overflow = 0;
 endmodule
