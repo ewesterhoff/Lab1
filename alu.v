@@ -20,21 +20,20 @@ input[31:0]   operandA,
 input[31:0]   operandB,
 input[2:0]    command
 );
-//declare wires
+  //declare wires
 	wire[31:0] out0, out1, out2, out3, out4;
-	wire cout0, cin0, over0;
-	wire cout1, over1, cout2, over2, cout3, over3, cout4, over4;
-	wire invert;
-	wire[2:0] muxindex;
-
+	wire 			 cout0, cout1, cout2, cout3, cout4;
+	wire 			 over0, over1, over2, over3, over4;
+	wire 			 invert;
+	wire[2:0]  muxindex;
 	wire[32:0] carryin0;
 
- //use LUT to get variable assignments for muxindex and invert depending on the input command
+  //use LUT to get variable assignments for muxindex and invert depending on the input command
 	ALUcontrolLUT lut(.muxindex(muxindex), .invert(invert), .ALUcommand(command));
- //first carryin of add-subtract module is identical to the invert signal
+  //first carryin of add-subtract module is identical to the invert signal
 	assign carryin0[0] = invert;
 
- //bit slice approach, generate 32 of each module for full capability
+  //bit slice approach, generate 32 of each module for full capability
 	genvar i;
 	generate for (i = 0; i < 32; i = i + 1) begin
 			AddSubN adder(.sum(out0[i]), .carryout(carryin0[i+1]), .a(operandA[i]), .b(operandB[i]), .carryin(carryin0[i]), .subtract(invert));
@@ -49,7 +48,7 @@ input[2:0]    command
 
 	SLTmod slter (.slt(out2), .carryout(cout2), .overflow(over2), .a(operandA), .b(operandB));
 
-	//set carryout for adder
+	//set carryout for adder, equivalent to the "carryin" of the 33rd bit
   assign cout0 = carryin0[32];
 	//calculate overflow for adder; overflow if final carryout is not equal to carryin of most significant bit
 	`XOR OVERFLOW(over0, cout0, carryin0[31]);
